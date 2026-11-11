@@ -22,7 +22,7 @@ jobs:
     timeout-minutes: 90
     defaults:
       run:
-        shell: sh
+        shell: sh -e "{0}"
     steps:
       - uses: actions/checkout@v5
         with:
@@ -76,3 +76,4 @@ jobs:
           echo '## ARM64 image' >> "$GITHUB_STEP_SUMMARY"
           echo "Image: \`$IMAGE:china-arm64\`" >> "$GITHUB_STEP_SUMMARY"
           echo "Digest: \`$DIGEST\`" >> "$GITHUB_STEP_SUMMARY"
+
