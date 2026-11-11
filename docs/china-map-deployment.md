@@ -57,3 +57,9 @@ pnpm start
 地图默认显示中国，顶部“返回世界”可切到世界地图，再用“查看中国”返回。中国地图显示省名，下钻后显示城市名；世界地图显示中文国家名，滚轮放大后显示更多小国名称。区县尚未开放下钻与标注。
 
 悬浮在地区或文字名称上会显示跟随鼠标的访客浮窗。省份点击进入城市地图；城市点击后在地图下方显示统计详情。世界地图点击中国区域或“中国”文字进入中国地图，其他国家点击显示国家统计。
+
+## GitHub Actions：自托管 ARM64 Runner
+
+工作流 `Build ARM64 China map image` 使用标签 `self-hosted`、`Linux`、`ARM64`，要求 Runner 在线且运行账户可使用 Docker。首次推送该工作流会触发构建；之后可在 Actions 页面手动 Run workflow。使用 GITHUB_TOKEN 发布 GHCR，无需另配 Docker Hub 密钥。
+
+构建成功后，镜像为 `ghcr.io/zhangtianyi-1998/umami:china-arm64`。Compose 中替换应用的 image，执行 `docker compose pull umami` 和 `docker compose up -d --no-deps umami`。新建 GHCR 包可能默认为私有，拉取时需登录有读取权限的账号，或由包所有者将包可见性改为 Public。此工作流只构建 ARM64 镜像。
