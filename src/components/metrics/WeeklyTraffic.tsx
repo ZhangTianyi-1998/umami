@@ -37,7 +37,7 @@ export function WeeklyTraffic({ websiteId }: { websiteId: string }) {
 
   return (
     <LoadingPanel data={data} isLoading={isLoading} error={error}>
-      <Grid columns="repeat(8, 1fr)" gap>
+      <Grid columns="44px repeat(7, minmax(0, 1fr))" gap>
         {data && (
           <>
             <Row>&nbsp;</Row>
@@ -52,12 +52,20 @@ export function WeeklyTraffic({ websiteId }: { websiteId: string }) {
               {Array(24)
                 .fill(null)
                 .map((_, i) => {
-                  const label = format(addHours(startOfDay(new Date()), i), 'haaa', {
+                  const label = format(addHours(startOfDay(new Date()), i), 'HH:mm', {
                     locale: dateLocale,
                   });
                   return (
-                    <Row key={i} justifyContent="flex-end">
-                      <Text color="muted" size="sm">
+                    <Row key={i} justifyContent="flex-end" alignItems="center">
+                      <Text
+                        color="muted"
+                        size="sm"
+                        style={{
+                          whiteSpace: 'nowrap',
+                          lineHeight: '16px',
+                          fontVariantNumeric: 'tabular-nums',
+                        }}
+                      >
                         {label}
                       </Text>
                     </Row>
