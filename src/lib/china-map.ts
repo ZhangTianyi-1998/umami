@@ -53,7 +53,25 @@ export function normalizeCity(value: string) {
   );
 }
 const extraAliases: Record<string, string[]> = {
-  '150100': ['Hohhot'],
+  '230100': ['Harbin'],
+  '230200': ['Qiqihar'],
+  '150100': ['Hohhot', 'Huhehaote'],
+  '150700': ['Hulunbuir'],
+  '150800': ['Bayannur'],
+  '150900': ['Ulanqab'],
+  '152200': ['Hinggan'],
+  '152500': ['Xilingol'],
+  '152900': ['Alxa'],
+  '650400': ['Turpan'],
+  '650500': ['Hami'],
+  '653100': ['Kashgar', 'Kashi'],
+  '652900': ['Aksu'],
+  '653200': ['Hotan'],
+  '540200': ['Shigatse'],
+  '540300': ['Chamdo'],
+  '540400': ['Nyingchi'],
+  '540500': ['Shannan', 'Lhokha'],
+  '540600': ['Nagqu'],
   '150200': ['Baotou'],
   '350200': ['Amoy'],
   '540100': ['Lhasa'],
@@ -89,4 +107,17 @@ export function mapProjection(data: any) {
     ] as [number, number],
     scale: Math.min(740 / (right - left), 420 / (top - bottom)),
   };
+}
+
+// Only translate unambiguous names; preserve unknown provider values.
+const cityNames = new Map<string, string | null>();
+for (const [code, names] of Object.entries(aliases)) {
+  for (const name of [...names, ...(extraAliases[code] || [])]) {
+    const key = normalizeCity(name);
+    const label = names[0].replace(/市$/u, '');
+    cityNames.set(key, cityNames.has(key) && cityNames.get(key) !== label ? null : label);
+  }
+}
+export function getChineseCityName(value: string) {
+  return cityNames.get(normalizeCity(value)) || value;
 }

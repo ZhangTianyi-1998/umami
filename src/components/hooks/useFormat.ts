@@ -1,3 +1,4 @@
+import { getChineseCityName } from '@/lib/china-map';
 import { BROWSERS, OS_NAMES } from '@/lib/constants';
 import regions from '../../../public/iso-3166-2.json';
 import { useCountryNames } from './useCountryNames';
@@ -33,7 +34,8 @@ export function useFormat() {
   };
 
   const formatCity = (value: string, country?: string): string => {
-    return countryNames[country] ? `${value}, ${countryNames[country]}` : value;
+    const name = country === 'CN' && locale?.startsWith('zh') ? getChineseCityName(value) : value;
+    return countryNames[country] ? `${name}, ${countryNames[country]}` : name;
   };
 
   const formatLanguage = (value: string): string => {

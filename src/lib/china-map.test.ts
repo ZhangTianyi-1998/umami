@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import {
   cityMatches,
+  getChineseCityName,
   mapProjection,
   OUTLINE_ONLY,
   regionMatches,
@@ -27,6 +28,11 @@ describe('China map location matching', () => {
       expect(cityMatches(name, 440100)).toBe(true);
     expect(cityMatches("Xi'an", 610100)).toBe(true);
     expect(cityMatches('Urumqi', 650100)).toBe(true);
+    expect(cityMatches('Harbin', 230100)).toBe(true);
+    expect(cityMatches('Qiqihar', 230200)).toBe(true);
+    expect(getChineseCityName('Harbin')).toBe('哈尔滨');
+    expect(getChineseCityName('Guangzhou')).toBe('广州');
+    expect(getChineseCityName('Unknown city')).toBe('Unknown city');
     expect(cityMatches('Shenzhen', 440100)).toBe(false);
     expect(cityMatches('', 440100)).toBe(false);
   });
