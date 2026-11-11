@@ -1,0 +1,6 @@
+services:
+  umami:
+    image: umami-china:local
+    build:
+      context: .
+      dockerfile: Dockerfile
