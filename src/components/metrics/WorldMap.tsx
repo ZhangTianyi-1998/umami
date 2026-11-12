@@ -1,6 +1,6 @@
 import { Column, type ColumnProps, useTheme } from '@umami/react-zen';
 import { colord } from 'colord';
-import { useMemo, useState } from 'react';
+import { type CSSProperties, useMemo, useState } from 'react';
 import { ComposableMap, Geographies, Geography, ZoomableGroup } from 'react-simple-maps';
 import {
   useCountryNames,
@@ -12,10 +12,10 @@ import { getThemeColors } from '@/lib/colors';
 import { ISO_COUNTRIES, MAP_FILE } from '@/lib/constants';
 import { percentFilter } from '@/lib/filters';
 import { formatLongNumber } from '@/lib/format';
-
 import { ChinaMap } from './ChinaMap';
 import { MapLabels } from './MapLabels';
 import { MapTooltip, type MapTooltipPosition } from './MapTooltip';
+import styles from './WorldMap.module.css';
 
 export interface WorldMapProps extends ColumnProps {
   websiteId?: string;
@@ -120,7 +120,13 @@ function CountryMap({
       {...props}
       data-tip=""
       data-for="world-map-tooltip"
-      style={{ margin: 'auto 0', overflow: 'hidden' }}
+      style={
+        {
+          margin: 'auto 0',
+          overflow: 'hidden',
+          '--map-hover-color': colors.map.hoverColor,
+        } as CSSProperties
+      }
     >
       <ComposableMap projection="geoMercator">
         <ZoomableGroup zoom={0.8} minZoom={0.7} center={[0, 40]}>
@@ -136,6 +142,7 @@ function CountryMap({
                       <Geography
                         key={geo.rsmKey}
                         geography={geo}
+                        className={styles.geography}
                         fill={getFillColor(code)}
                         stroke={colors.map.strokeColor}
                         opacity={getOpacity(code)}
@@ -144,7 +151,7 @@ function CountryMap({
                             outline: 'none',
                             cursor: code === 'CN' && onChina ? 'pointer' : 'default',
                           },
-                          hover: { outline: 'none', fill: colors.map.hoverColor },
+                          hover: { outline: 'none' },
                           pressed: { outline: 'none' },
                         }}
                         role={code === 'CN' && onChina ? 'button' : 'img'}
