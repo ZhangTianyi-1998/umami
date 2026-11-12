@@ -13,7 +13,7 @@ import { ISO_COUNTRIES, MAP_FILE } from '@/lib/constants';
 import { percentFilter } from '@/lib/filters';
 import { formatLongNumber } from '@/lib/format';
 import { ChinaMap } from './ChinaMap';
-import { MapLabels } from './MapLabels';
+import { ZoomableMapLabels } from './MapLabels';
 import { MapTooltip, type MapTooltipPosition } from './MapTooltip';
 import styles from './WorldMap.module.css';
 
@@ -179,7 +179,7 @@ function CountryMap({
                       />
                     );
                   })}
-                  <MapLabels
+                  <ZoomableMapLabels
                     world
                     onLeave={() => setTooltipPopup('')}
                     onHover={(geo, event) => {

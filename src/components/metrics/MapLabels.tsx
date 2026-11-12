@@ -6,6 +6,7 @@ export function MapLabels({
   geographies,
   getName,
   world = false,
+  zoom = 1,
   onSelect,
   onHover,
   onLeave,
@@ -13,12 +14,13 @@ export function MapLabels({
   geographies: any[];
   getName: (geo: any) => string;
   world?: boolean;
+  zoom?: number;
   onSelect?: (geo: any) => void;
   onHover?: (geo: any, event: React.MouseEvent<SVGTextElement>) => void;
   onLeave?: () => void;
 }) {
   const { projection, path } = useMapContext();
-  const { k = 1 } = useZoomPanContext() || {};
+  const k = zoom;
   const { theme } = useTheme();
   const fontSize = (world ? 9 : 10) / k;
   const placed: { x: number; y: number; width: number; height: number }[] = [];
@@ -107,4 +109,10 @@ export function chinaLabel(geo: any) {
       /(土家族|苗族|蒙古族|藏族|哈尼族|彝族|傣族|白族|傈僳族|壮族|布依族|侗族|朝鲜族|哈萨克族|柯尔克孜族|回族|景颇族|自治州|地区)$/gu,
       '',
     );
+}
+
+// Render only inside ZoomableGroup, which supplies ZoomPanProvider.
+export function ZoomableMapLabels(props: React.ComponentProps<typeof MapLabels>) {
+  const { k } = useZoomPanContext();
+  return <MapLabels {...props} zoom={k} />;
 }
