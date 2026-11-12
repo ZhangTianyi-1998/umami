@@ -73,3 +73,7 @@ pnpm start
 ### 原生构建更新
 
 由于 QEMU 模拟 AMD64 时 Next.js/Turbopack 发生段错误，工作流已改为双 Runner 原生构建：ARM64 使用自己的 ARM64 Runner，AMD64 使用 GitHub 托管的 `ubuntu-24.04` x64 Runner。两种架构并行，全部成功后再合并通用 `:china` 标签。上述 QEMU 方式不再用于此工作流。
+
+### 全 GitHub 托管构建
+
+ARM64 已切换到 GitHub 的 `ubuntu-24.04-arm`，AMD64 使用 `ubuntu-24.04`。两个平台均原生构建，不再使用自托管主机或 QEMU；通用镜像仍是 `ghcr.io/zhangtianyi-1998/umami:china`，各架构标签继续保留。此节取代前文自托管 Runner 的说明。
