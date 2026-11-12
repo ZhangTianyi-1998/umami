@@ -63,3 +63,9 @@ pnpm start
 工作流 `Build ARM64 China map image` 使用标签 `self-hosted`、`Linux`、`ARM64`，要求 Runner 在线且运行账户可使用 Docker。首次推送该工作流会触发构建；之后可在 Actions 页面手动 Run workflow。使用 GITHUB_TOKEN 发布 GHCR，无需另配 Docker Hub 密钥。
 
 构建成功后，镜像为 `ghcr.io/zhangtianyi-1998/umami:china-arm64`。Compose 中替换应用的 image，执行 `docker compose pull umami` 和 `docker compose up -d --no-deps umami`。新建 GHCR 包可能默认为私有，拉取时需登录有读取权限的账号，或由包所有者将包可见性改为 Public。此工作流只构建 ARM64 镜像。
+
+## ARM64 和 x64 通用镜像
+
+工作流现名为 `Build multi-platform China map image`，文件仍为 `build-arm64.yml`。在 ARM64 自托管 Runner 上用原生方式构建 ARM64，通过 QEMU 构建 AMD64；二者成功后按摘要合并为 `ghcr.io/zhangtianyi-1998/umami:china`，Docker 拉取时自动选择平台。
+
+原来的 `:china-arm64` 保留，另提供 `:china-amd64`。每次构建也发布带完整 Git SHA 的固定版本标签。首次 x64 模拟构建会比 ARM64 原生构建慢。QEMU 配置步骤需要 Runner 的 Docker 允许特权容器。
