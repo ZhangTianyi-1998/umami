@@ -69,3 +69,7 @@ pnpm start
 工作流现名为 `Build multi-platform China map image`，文件仍为 `build-arm64.yml`。在 ARM64 自托管 Runner 上用原生方式构建 ARM64，通过 QEMU 构建 AMD64；二者成功后按摘要合并为 `ghcr.io/zhangtianyi-1998/umami:china`，Docker 拉取时自动选择平台。
 
 原来的 `:china-arm64` 保留，另提供 `:china-amd64`。每次构建也发布带完整 Git SHA 的固定版本标签。首次 x64 模拟构建会比 ARM64 原生构建慢。QEMU 配置步骤需要 Runner 的 Docker 允许特权容器。
+
+### 原生构建更新
+
+由于 QEMU 模拟 AMD64 时 Next.js/Turbopack 发生段错误，工作流已改为双 Runner 原生构建：ARM64 使用自己的 ARM64 Runner，AMD64 使用 GitHub 托管的 `ubuntu-24.04` x64 Runner。两种架构并行，全部成功后再合并通用 `:china` 标签。上述 QEMU 方式不再用于此工作流。
